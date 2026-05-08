@@ -1,5 +1,15 @@
     <footer>
         <p>&copy; <%= new Date().getFullYear() %> CSE 340 Service Network.</p>
     </footer>
+    
+    <script>
+        const toggle = document.querySelector('.nav-toggle');
+        const menu = document.querySelector('nav ul');
+        toggle.addEventListener('click', () => {
+            toggle.classList.toggle('open');
+            menu.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', menu.classList.contains('open'));
+        });
+    </script>
 </body>
 </html>

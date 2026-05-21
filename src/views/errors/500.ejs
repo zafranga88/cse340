@@ -4,7 +4,7 @@
     <p>We are experiencing technical difficulties. Our team has been notified and is working to fix the issue.</p>
     <p>Return to the <a href="/">homepage</a> to continue browsing.</p>
     
-    <% if (NODE_ENV === 'development') { %>
+    <% if (locals.NODE_ENV === 'development') { %>
         <details open>
             <summary>Error Details (Development Only)</summary>
             <pre><%= error %></pre>

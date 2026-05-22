@@ -157,3 +157,6 @@ VALUES
 ('Food & Hunger'),
 ('Education & Youth'),
 ('Community Support');
+
+UPDATE project
+SET date = date + INTERVAL '1 year';

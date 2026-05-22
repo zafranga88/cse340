@@ -160,3 +160,46 @@ VALUES
 
 UPDATE project
 SET date = date + INTERVAL '1 year';
+
+SELECT project_id, title FROM project;
+SELECT category_id, name FROM category;
+INSERT INTO project_category (project_id, category_id)
+VALUES
+(1, 2),
+(1, 5),
+
+(2, 1),
+(2, 4),
+
+(3, 1),
+(3, 5),
+
+(4, 5),
+
+(5, 4),
+(5, 5),
+
+(6, 2),
+(6, 3),
+
+(7, 2),
+
+(8, 3),
+(8, 5),
+
+(9, 4),
+(9, 2),
+
+(10, 5),
+
+(11, 3),
+
+(12, 5),
+
+(13, 5),
+
+(14, 2),
+(14, 5),
+
+(15, 4),
+(15, 5);

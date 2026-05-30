@@ -1,0 +1,70 @@
+<%- include('partials/header') %>
+<main>
+    <h1><%= title %></h1>
+
+ <form action="/edit-project/<%= project.project_id %>" method="POST">
+    <div class="form-group">
+      <label for="title">Project Title</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        maxlength="150"
+        value="<%= project.title %>"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        name="description"
+        maxlength="500"
+        required
+      ><%= project.description %></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="location">Location</label>
+      <input
+        type="text"
+        id="location"
+        name="location"
+        maxlength="255"
+        value="<%= project.location %>"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="date">Date</label>
+      <input
+        type="date"
+        id="date"
+        name="date"
+        value="<%= project.date ? new Date(project.date).toISOString().split('T')[0] : '' %>"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="organizationId">Organization</label>
+      <select
+        id="organizationId"
+        name="organizationId"
+        required
+      >
+        <option value="">Select an organization</option>
+        <% organizations.forEach(org => { %>
+          <% const isSelected = org.organization_id === project.organization_id; %>
+          <option value="<%= org.organization_id %>" <%= isSelected ? 'selected' : '' %>><%= org.name %></option>
+        <% }); %>
+      </select>
+    </div>
+
+    <button type="submit">Update Project</button>
+  </form>
+
+</main>
+<%- include('partials/footer') %>

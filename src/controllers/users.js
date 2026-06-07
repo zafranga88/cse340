@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { createUser, authenticateUser, getAllUsers } from '../models/users.js';
+import { createUser, authenticateUser, getAllUsers, addVolunteer, removeVolunteer, getVolunteerProjects, isVolunteer } from '../models/users.js';
 
 const showUserRegistrationForm = (req, res) => {
     res.render('register', { title: 'Register' });
@@ -62,13 +62,27 @@ const requireLogin = (req, res, next) => {
     next();
 };
 
-const showDashboard = (req, res) => {
+const showDashboard = async (req, res) => {
     const user = req.session.user;
-    res.render('dashboard', { 
-        title: 'Dashboard',
-        name: user.name,
-        email: user.email
-    });
+    console.log('user_id:', user.user_id);
+    try {
+        const volunteerProjects = await getVolunteerProjects(user.user_id);
+        res.render('dashboard', { 
+            title: 'Dashboard',
+            name: user.name,
+            email: user.email,
+            volunteerProjects
+        });
+    } catch (error) {
+        console.error('Dashboard error:', error);
+        console.log('Falling back to empty volunteer projects');
+        res.render('dashboard', {
+            title: 'Dashboard',
+            name: user.name,
+            email: user.email,
+            volunteerProjects: []
+        });
+    }
 };
 
 const requireRole = (role) => {
@@ -90,4 +104,18 @@ const showUsersPage = async (req, res) => {
     res.render('users', { title: 'Users', users });
 };
 
-export { showUserRegistrationForm, processUserRegistrationForm, showLoginForm, processLoginForm, processLogout, requireLogin, showDashboard, requireRole, showUsersPage };
+const processAddVolunteer = async (req, res) => {
+    const { id } = req.params;
+    const userId = req.session.user.user_id;
+    await addVolunteer(userId, id);
+    res.redirect(`/project/${id}`);
+};
+
+const processRemoveVolunteer = async (req, res) => {
+    const { id } = req.params;
+    const userId = req.session.user.user_id;
+    await removeVolunteer(userId, id);
+    res.redirect(`/project/${id}`);
+};
+
+export { showUserRegistrationForm, processUserRegistrationForm, showLoginForm, processLoginForm, processLogout, requireLogin, showDashboard, requireRole, showUsersPage, processAddVolunteer, processRemoveVolunteer };

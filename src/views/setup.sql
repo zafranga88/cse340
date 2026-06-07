@@ -100,3 +100,9 @@ CREATE TABLE users (
 );
 
 UPDATE users SET role_id = (SELECT role_id FROM roles WHERE role_name = 'admin') WHERE email = 'admin@example.com';
+
+CREATE TABLE volunteer (
+    user_id INT NOT NULL REFERENCES users(user_id),
+    project_id INT NOT NULL REFERENCES project(project_id),
+    PRIMARY KEY (user_id, project_id)
+);

@@ -6,6 +6,8 @@ import router from './src/routes.js';
 import session from 'express-session';
 import flash from './src/middleware/flash.js';
 
+console.log('Server starting...');
+
 const SESSION_SECRET = process.env.SESSION_SECRET;
 
 // Define the the application environment
@@ -96,6 +98,8 @@ app.use((err, req, res, next) => {
     res.status(status).render(`errors/${template}`, context);
 });
 
+console.log('About to listen...');
+
 app.listen(PORT, async () => {
   try {
     await testConnection();
@@ -104,4 +108,12 @@ app.listen(PORT, async () => {
   } catch (error) {
     console.error('Error connecting to the database:', error);
   }
+});
+
+process.on('uncaughtException', (error) => {
+    console.error('Uncaught Exception:', error);
+});
+
+process.on('unhandledRejection', (error) => {
+    console.error('Unhandled Rejection:', error);
 });

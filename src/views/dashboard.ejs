@@ -7,5 +7,19 @@
     <% if (user && user.role_name === 'admin') { %>
         <p><a href="/users">Manage Users</a></p>
     <% } %>
+    <h2>My Volunteer Projects</h2>
+    <% if (typeof volunteerProjects === 'undefined' || volunteerProjects.length === 0) { %>
+        <p>You have not signed up for any projects yet.</p>
+    <% } else { %>
+        <ul>
+            <% volunteerProjects.forEach(project => { %>
+                <li>
+                    <a href="/project/<%= project.project_id %>"><%= project.title %></a>
+                    - <%= new Date(project.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                    <a href="/remove-volunteer/<%= project.project_id %>">Remove</a>
+                </li>
+            <% }); %>
+        </ul>
+    <% } %>
 </main>
 <%- include('partials/footer') %>

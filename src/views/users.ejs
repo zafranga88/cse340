@@ -3,7 +3,21 @@
     <h1><%= title %></h1>
     <ul>
         <% users.forEach(user => { %>
-            <li><%= user.name %> - <%= user.email %> (<%= user.role_name %>)</li>
+            <li>
+                <%= user.name %> - <%= user.email %> (<%= user.role_name %>)
+                <% console.log('volunteers:', volunteers, 'user_id:', user.user_id); %>
+                <% const userVolunteers = typeof volunteers !== 'undefined' ? volunteers.filter(v => v.user_id == user.user_id) : []; %>
+                <% if (userVolunteers.length > 0) { %>
+                    <ul>
+                        <% userVolunteers.forEach(v => { %>
+                            <li>
+                                <%= v.project_title %>
+                                <a href="/admin-remove-volunteer/<%= user.user_id %>/<%= v.project_id %>">Remove</a>
+                            </li>
+                        <% }); %>
+                    </ul>
+                <% } %>
+            </li>
         <% }); %>
     </ul>
 </main>

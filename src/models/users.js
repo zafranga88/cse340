@@ -94,4 +94,16 @@ const isVolunteer = async (userId, projectId) => {
     return result.rows.length > 0;
 };
 
-export { createUser, authenticateUser, getAllUsers, addVolunteer, removeVolunteer, getVolunteerProjects, isVolunteer };
+const getAllVolunteers = async () => {
+    const query = `
+        SELECT u.user_id, u.name, u.email, p.project_id, p.title AS project_title
+        FROM volunteer v
+        JOIN users u ON v.user_id = u.user_id
+        JOIN project p ON v.project_id = p.project_id
+        ORDER BY u.user_id
+    `;
+    const result = await db.query(query);
+    return result.rows;
+};
+
+export { createUser, authenticateUser, getAllUsers, addVolunteer, removeVolunteer, getVolunteerProjects, isVolunteer, getAllVolunteers };
